@@ -1,0 +1,16 @@
+packages:
+  "framer-motion": "For smooth scroll and entrance animations"
+  "embla-carousel-react": "For the projects carousel implementation"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility for merging tailwind classes without style conflicts"
+
+images:
+  - path: "artifacts/portfolio/public/images/profile-placeholder.png"
+    description: "A highly professional, dramatic, cinematic portrait of a young male software developer in a dark moody studio, edge lighting with electric blue and purple hues, clean modern aesthetic, looking at camera"
+    aspect_ratio: "1:1"
+  - path: "artifacts/portfolio/public/images/music-album.png"
+    description: "Abstract, vibrant, synthwave aesthetic album cover art, glowing geometric shapes, soundwaves, electric blue and hot pink on deep black background"
+    aspect_ratio: "1:1"
+
+notes:
+  - This is a static portfolio, no backend API is required for this specific artifact. Contact form will be stubbed to show a success message.
