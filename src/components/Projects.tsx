@@ -7,12 +7,18 @@ import { cn } from "@/lib/utils";
 
 const CATEGORIES = ["Todos", "Mis Apps", "Web Apps", "Diseño"];
 
+/** Archivos en `public/images/` — Vite los sirve como `/images/...`, nunca como `public/images/...`. */
+function publicImage(filename: string) {
+  const base = import.meta.env.BASE_URL;
+  return `${base}images/${encodeURIComponent(filename)}`;
+}
+
 const PROJECTS = [
   {
     id: 1,
     title: 'ReparaYa',
     description: 'Aplicación móvil para servicios de reparación rápida y eficiente con geolocalización en tiempo real.',
-    image: 'public/images/ReparaYa.png',
+    image: publicImage('ReparaYa.png'),
     category: 'Mobile Apps',
     tech: ['React Native', 'Expo', 'TypeScript'],
     url: 'https://reparaya--8qkapxnbi2.expo.app/'
@@ -21,7 +27,7 @@ const PROJECTS = [
     id: 2,
     title: 'Shotify',
     description: 'Juego interactivo de party game con preguntas dinámicas y mecánicas multijugador.',
-    image: 'public/images/SHOTIFY.png',
+    image: publicImage('SHOTIFY.png'),
     category: 'Web Apps',
     tech: ['React', 'Vite', 'Tailwind CSS'],
     url: 'https://verdad-o-shot-drinki-u20q.bolt.host/'
@@ -48,7 +54,7 @@ const PROJECTS = [
     id: 5,
     title: 'Solucontas',
     description: 'Identidad corporativa profesional para servicios contables y asesoramiento fiscal.',
-    image: 'public/images/LOGO SOLUCONTAS.jpg',
+    image: publicImage('LOGO SOLUCONTAS.jpg'),
     category: 'Diseño',
     tech: ['Branding', 'Logo Design', 'Color Theory'],
     url: '#'
@@ -57,7 +63,7 @@ const PROJECTS = [
     id: 6,
     title: 'Creativo',
     description: 'Diseño de marca moderna y minimalista con identidad visual única.',
-    image: 'public/images/Creativo.png',
+    image: publicImage('Creativo.png'),
     category: 'Diseño',
     tech: ['Branding', 'Design System', 'Typography'],
     url: '#'
@@ -66,7 +72,7 @@ const PROJECTS = [
     id: 7,
     title: 'Press Pause',
     description: 'Aplicación que te ayuda a resolver conflictos de pareja de forma guiada y empática.',
-    image: 'public/images/cover.png',
+    image: publicImage('cover.png'),
     category: 'Mis Apps',
     tech: ['React Native', 'Expo', 'TypeScript'],
     url: 'https://jonyrey-frontend--ag5xgezem5.expo.app/'
