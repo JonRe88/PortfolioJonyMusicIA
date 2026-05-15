@@ -76,7 +76,16 @@ const PROJECTS = [
     category: 'Mis Apps',
     tech: ['React Native', 'Expo', 'TypeScript'],
     url: 'https://jonyrey-frontend--ag5xgezem5.expo.app/'
-  }
+  },
+  { 
+    id: 8,
+    title: 'RuletaShots',
+    description: 'Aplicación para pasar una noche divetida con amigos todo con medida nada con exceso',
+    image: publicImage('icon.png'),
+    category: 'Mis Apps',
+    tech: ['React Native', 'Expo', 'TypeScript'],
+    url: 'https://ruletarusa.expo.app/'
+  },    
 ];
 
 export function Projects() {
