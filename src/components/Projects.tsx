@@ -30,7 +30,7 @@ const PROJECTS = [
     image: publicImage('SHOTIFY.png'),
     category: 'Web Apps',
     tech: ['React', 'Vite', 'Tailwind CSS'],
-    url: 'https://verdad-o-shot-drinki-u20q.bolt.host/'
+    url: 'https://shotify.expo.app/'
   },
   {
     id: 3,
