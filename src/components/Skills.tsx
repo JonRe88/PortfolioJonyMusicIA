@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
-import { GlowCard } from "./GlowCard";
+import { GlowCard } from 'glow-card/react'
 
 const SKILLS = [
   { name: "React",        level: "Avanzado",   letter: "R",  color: "#61DAFB", glowColor: "blue"   as const },
