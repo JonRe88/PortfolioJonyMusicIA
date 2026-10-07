@@ -1,267 +1,39 @@
-import { useState, useCallback, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
-import { cn } from "@/lib/utils";
 
-const CATEGORIES = ["Todos", "Mis Apps", "Web Apps", "Diseño"];
-
-/** Archivos en `public/images/` — Vite los sirve como `/images/...`, nunca como `public/images/...`. */
-function publicImage(filename: string) {
-  const base = import.meta.env.BASE_URL;
-  return `${base}images/${encodeURIComponent(filename)}`;
-}
+function publicImage(filename: string) { return `${import.meta.env.BASE_URL}images/${encodeURIComponent(filename)}`; }
 
 const PROJECTS = [
-  {
-    id: 1,
-    title: 'ReparaYa',
-    description: 'Aplicación móvil para servicios de reparación rápida y eficiente con geolocalización en tiempo real.',
-    image: publicImage('ReparaYa.png'),
-    category: 'Mobile Apps',
-    tech: ['React Native', 'Expo', 'TypeScript'],
-    url: 'https://reparaya--8qkapxnbi2.expo.app/'
-  },
-  {
-    id: 2,
-    title: 'Shotify',
-    description: 'Juego interactivo de party game con preguntas dinámicas y mecánicas multijugador.',
-    image: publicImage('SHOTIFY.png'),
-    category: 'Web Apps',
-    tech: ['React', 'Vite', 'Tailwind CSS'],
-    url: 'https://shotify.expo.app/'
-  },
-  {
-    id: 3,
-    title: 'Dibuja y Juega',
-    description: 'Plataforma creativa para dibujar y jugar en tiempo real. Similar a Pictionary con soporte multiplayer.',
-    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
-    category: 'Web Apps',
-    tech: ['Next.js', 'Canvas API', 'WebSockets'],
-    url: 'https://dibuja-y-juega.vercel.app/'
-  },
-  {
-    id: 4,
-    title: 'BioS3Lab',
-    description: 'Sitio web institucional para laboratorio de biología con información y servicios.',
-    image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80',
-    category: 'Web Apps',
-    tech: ['HTML', 'CSS', 'JavaScript'],
-    url: 'https://jonre88.github.io/BioS3Lab/'
-  },
-  {
-    id: 5,
-    title: 'Solucontas',
-    description: 'Identidad corporativa profesional para servicios contables y asesoramiento fiscal.',
-    image: publicImage('LOGO SOLUCONTAS.jpg'),
-    category: 'Diseño',
-    tech: ['Branding', 'Logo Design', 'Color Theory'],
-    url: '#'
-  },
-  {
-    id: 6,
-    title: 'Creativo',
-    description: 'Diseño de marca moderna y minimalista con identidad visual única.',
-    image: publicImage('Creativo.png'),
-    category: 'Diseño',
-    tech: ['Branding', 'Design System', 'Typography'],
-    url: '#'
-  },
-  {
-    id: 7,
-    title: 'Press Pause',
-    description: 'Aplicación que te ayuda a resolver conflictos de pareja de forma guiada y empática.',
-    image: publicImage('cover.png'),
-    category: 'Mis Apps',
-    tech: ['React Native', 'Expo', 'TypeScript'],
-    url: 'https://jonyrey-frontend--ag5xgezem5.expo.app/'
-  },
-  { 
-    id: 8,
-    title: 'RuletaShots',
-    description: 'Aplicación para pasar una noche divetida con amigos todo con medida nada con exceso',
-    image: publicImage('icon.png'),
-    category: 'Mis Apps',
-    tech: ['React Native', 'Expo', 'TypeScript'],
-    url: 'https://ruletarusa.expo.app/'
-  },    
+  { title: "XIMNANZAS", type: "Producto digital · Web", description: "Experiencia digital para orientar decisiones de retiro, seguros e inversión con claridad.", image: publicImage("ximnanzas-preview.png"), url: "https://ximnanzas.com/", tone: "bg-[#dce7df]" },
+  { title: "ReparaYa", type: "Producto digital · Mobile", description: "Una experiencia directa para conectar personas con servicios de reparación.", image: publicImage("ReparaYa.png"), url: "https://reparaya--8qkapxnbi2.expo.app/", tone: "bg-[#d4efdd]" },
+  { title: "Shotify", type: "Juego · Web app", description: "Party game diseñado para que la conversación nunca se detenga.", image: publicImage("SHOTIFY.png"), url: "https://shotify.expo.app/", tone: "bg-[#f3d5b5]" },
+  { title: "Press Pause", type: "Producto digital · Mobile", description: "Una pausa guiada para resolver conflictos con más empatía.", image: publicImage("cover.png"), url: "https://jonyrey-frontend--ag5xgezem5.expo.app/", tone: "bg-[#ded7f5]" },
+  { title: "Solucontas", type: "Identidad · Branding", description: "Una identidad profesional construida para hacer simple lo complejo.", image: publicImage("LOGO SOLUCONTAS.jpg"), url: "#", tone: "bg-[#e8d8c3]" },
+  { title: "Creativo", type: "Identidad · Dirección de arte", description: "Sistema visual minimalista con una voz propia.", image: publicImage("Creativo.png"), url: "#", tone: "bg-[#d9e6e6]" },
+  { title: "RuletaShots", type: "Producto digital · Mobile", description: "Una noche entre amigos, convertida en una experiencia.", image: publicImage("icon.png"), url: "https://ruletarusa.expo.app/", tone: "bg-[#f1c9c1]" },
 ];
 
 export function Projects() {
-  const [activeCategory, setActiveCategory] = useState("Todos");
-
-  const filteredProjects = PROJECTS.filter(p =>
-    activeCategory === "Todos" ? true : p.category === activeCategory
-  );
-
-  // We re-initialize the carousel when the filtered list changes
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
-    skipSnaps: false,
-    dragFree: true
-  });
-
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(true);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-    setPrevBtnEnabled(emblaApi.canScrollPrev());
-    setNextBtnEnabled(emblaApi.canScrollNext());
-  }, [emblaApi, setSelectedIndex]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
-  }, [emblaApi, onSelect]);
-
-  // Re-init when projects change
-  useEffect(() => {
-    if (emblaApi) emblaApi.reInit();
-  }, [filteredProjects, emblaApi]);
-
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
-      {/* Decorative bg */}
-      <div className="absolute top-40 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading title="Proyectos Destacados" subtitle="Mi Portafolio" />
-
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {CATEGORIES.map(category => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={cn(
-                "px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
-                activeCategory === category
-                  ? "bg-primary text-white shadow-lg shadow-primary/25"
-                  : "bg-card border border-white/5 text-muted-foreground hover:text-white hover:bg-card/80"
-              )}
-            >
-              {category}
-            </button>
+    <section id="projects" className="relative px-5 py-24 sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading title="Trabajo seleccionado" subtitle="01 / proyectos" />
+        <div className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2">
+          {PROJECTS.map((project, index) => (
+            <motion.article key={project.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ delay: index * 0.06 }} className={index % 3 === 0 ? "md:pt-12" : ""}>
+              <a href={project.url} target={project.url === "#" ? undefined : "_blank"} rel="noopener noreferrer" className="group block">
+                <div className={`relative aspect-[1.35/1] overflow-hidden ${project.tone}`}>
+                  <img src={project.image} alt={project.title} className="h-full w-full object-contain p-8 mix-blend-multiply transition-transform duration-700 group-hover:scale-105 md:p-12" />
+                  <div className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-foreground text-background opacity-0 transition-all duration-300 group-hover:opacity-100"><ArrowUpRight size={18} /></div>
+                </div>
+                <div className="mt-4 flex items-start justify-between gap-4 border-t border-foreground/15 pt-3">
+                  <div><h3 className="font-display text-2xl font-semibold tracking-[-0.05em]">{project.title}</h3><p className="mt-1 max-w-sm text-sm text-muted-foreground">{project.description}</p></div>
+                  <span className="shrink-0 pt-1 text-right font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{project.type}</span>
+                </div>
+              </a>
+            </motion.article>
           ))}
-        </div>
-
-        {/* Carousel Area */}
-        <div className="relative">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -ml-4 touch-pan-y">
-              <AnimatePresence mode="popLayout">
-                {filteredProjects.map((project) => (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.3 }}
-                    className="min-w-0 shrink-0 grow-0 basis-full md:basis-1/2 lg:basis-1/3 pl-4"
-                  >
-                    <div className="glass-panel rounded-2xl overflow-hidden h-full flex flex-col group hover:border-primary/30 transition-colors duration-300">
-                      {/* Image container */}
-                      <div className="relative h-56 overflow-hidden">
-                        <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10 duration-500" />
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                        />
-                        <div className="absolute top-4 right-4 z-20">
-                          <span className="px-3 py-1 text-xs font-semibold bg-black/60 backdrop-blur-md text-white rounded-full border border-white/10">
-                            {project.category}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 flex flex-col flex-grow">
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
-                        <p className="text-muted-foreground text-sm mb-6 flex-grow line-clamp-3">
-                          {project.description}
-                        </p>
-
-                        <div className="mt-auto">
-                          <div className="flex flex-wrap gap-2 mb-6">
-                            {project.tech.map(tech => (
-                              <span key={tech} className="text-xs px-2.5 py-1 bg-white/5 border border-white/10 rounded-md text-gray-300">
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex w-full items-center justify-center gap-2 px-4 py-3 bg-white/5 hover:bg-primary text-white text-sm font-medium rounded-xl transition-all duration-300"
-                          >
-                            Ver Proyecto
-                            <ExternalLink size={16} />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Navigation Controls */}
-          {filteredProjects.length > 0 && (
-            <div className="flex items-center justify-center mt-10 gap-4">
-              <button
-                className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center glass-panel transition-all",
-                  !prevBtnEnabled ? "opacity-50 cursor-not-allowed" : "hover:bg-primary/20 hover:text-primary"
-                )}
-                onClick={scrollPrev}
-                disabled={!prevBtnEnabled}
-                aria-label="Previous slide"
-              >
-                <ChevronLeft size={20} />
-              </button>
-
-              <div className="flex gap-2">
-                {emblaApi?.scrollSnapList().map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => scrollTo(index)}
-                    className={cn(
-                      "w-2 h-2 rounded-full transition-all duration-300",
-                      index === selectedIndex ? "w-6 bg-primary" : "bg-white/20 hover:bg-white/40"
-                    )}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-
-              <button
-                className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center glass-panel transition-all",
-                  !nextBtnEnabled ? "opacity-50 cursor-not-allowed" : "hover:bg-primary/20 hover:text-primary"
-                )}
-                onClick={scrollNext}
-                disabled={!nextBtnEnabled}
-                aria-label="Next slide"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </section>

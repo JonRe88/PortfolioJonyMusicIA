@@ -2,13 +2,13 @@ import { Github, Linkedin, Twitter, Code2 } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 bg-background relative z-10">
+    <footer className="border-t border-foreground/15 py-10 bg-background relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         
         <div className="flex items-center gap-2">
-          <Code2 className="text-primary" size={24} />
-          <span className="font-display font-bold text-xl">
-            Jony <span className="text-primary">Reyes</span>
+          <Code2 className="text-primary" size={20} />
+          <span className="font-display font-bold text-xl tracking-[-0.06em]">
+            Jony.Reyes<span className="text-primary">*</span>
           </span>
         </div>
 
@@ -27,7 +27,7 @@ export function Footer() {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-white hover:scale-110 transition-all"
+              className="text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
             >
               <social.icon size={20} />
             </a>

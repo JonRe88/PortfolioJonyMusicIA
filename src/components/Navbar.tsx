@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -28,48 +28,36 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
-        isScrolled ? "py-4 glass-panel border-b-0" : "py-6 bg-transparent"
+        isScrolled ? "py-4 bg-background/90 backdrop-blur-md border-b border-foreground/10" : "py-6 bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300">
-              <Code2 size={24} strokeWidth={2.5} />
-            </div>
-            <span className="font-display font-bold text-xl tracking-tight">
-              Jony <span className="text-primary">Reyes</span>
-            </span>
+          <a href="#home" className="flex items-center gap-3 group">
+            <span className="font-display font-bold text-xl tracking-[-0.06em] uppercase">Jony.Reyes<span className="text-primary">*</span></span>
           </a>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             <ul className="flex items-center gap-6">
-              {NAV_LINKS.map((link) => (
+              {NAV_LINKS.filter((link) => link.name !== "Inicio").map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-sm font-medium text-muted-foreground hover:text-white transition-colors duration-200"
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
                   >
                     {link.name}
                   </a>
                 </li>
               ))}
             </ul>
-            <div className="h-6 w-px bg-border"></div>
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-              </span>
-              <span className="text-xs font-medium text-emerald-400">Disponible</span>
-            </div>
+            <a href="#contact" className="inline-flex items-center gap-1 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background hover:bg-primary transition-colors">Hablemos <ArrowUpRight size={15} /></a>
           </nav>
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden p-2 text-muted-foreground hover:text-white transition-colors"
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -92,7 +80,7 @@ export function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-muted-foreground hover:text-white py-2 transition-colors"
+                  className="text-lg font-medium text-muted-foreground hover:text-foreground py-2 transition-colors"
                 >
                   {link.name}
                 </a>
