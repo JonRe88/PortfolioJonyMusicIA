@@ -1,38 +1,52 @@
-import { Github, Linkedin, Twitter, Code2 } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Music2 } from "lucide-react";
+
+const SOCIAL_LINKS = [
+  { label: "GitHub", href: "https://github.com/jonre88", icon: Github },
+  { label: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
+  {
+    label: "Spotify",
+    href: "https://open.spotify.com/artist/34X4pmiC1lKMz9dH1OEWy5",
+    icon: Music2,
+  },
+];
 
 export function Footer() {
   return (
-    <footer className="border-t border-foreground/15 py-10 bg-background relative z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        
-        <div className="flex items-center gap-2">
-          <Code2 className="text-primary" size={20} />
-          <span className="font-display font-bold text-xl tracking-[-0.06em]">
-            Jony.Reyes<span className="text-primary">*</span>
-          </span>
-        </div>
+    <footer className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-neutral-950 px-5 py-8 sm:px-8 lg:px-12">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
+        <a
+          href="#home"
+          className="flex items-center gap-2 text-white transition-colors hover:text-violet-200"
+        >
+          <span className="font-display text-xl tracking-tight">Jony.Reyes</span>
+          <span className="text-violet-300">*</span>
+        </a>
 
-        <p className="text-sm text-muted-foreground text-center md:text-left">
-          &copy; {new Date().getFullYear()} Jony Reyes. Todos los derechos reservados.
+        <p className="text-center text-xs text-neutral-500 md:text-left">
+          © {new Date().getFullYear()} Jony Reyes. Todos los derechos reservados.
         </p>
 
-        <div className="flex items-center gap-4">
-          {[
-            { icon: Github, href: "https://github.com/jonre88" },
-            { icon: Linkedin, href: "https://linkedin.com" },
-            { icon: Twitter, href: "https://twitter.com" },
-          ].map((social, i) => (
+        <nav aria-label="Redes sociales" className="flex items-center gap-3">
+          {SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
             <a
-              key={i}
-              href={social.href}
+              key={label}
+              href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground hover:scale-110 transition-all"
+              aria-label={label}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-neutral-400 transition-all hover:border-violet-300/40 hover:bg-white/[0.04] hover:text-white"
             >
-              <social.icon size={20} />
+              <Icon size={17} />
             </a>
           ))}
-        </div>
+          <a
+            href="#home"
+            aria-label="Volver al inicio"
+            className="ml-2 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-neutral-500 transition-colors hover:text-white"
+          >
+            Inicio <ArrowUpRight size={13} />
+          </a>
+        </nav>
       </div>
     </footer>
   );

@@ -1,85 +1,125 @@
 import { motion } from "framer-motion";
-import { Monitor, Smartphone, Terminal } from "lucide-react";
-import { SectionHeading } from "./SectionHeading";
+import { ArrowUpRight, Code2, Layers3, Music2 } from "lucide-react";
+
+const FOCUS_AREAS = [
+  {
+    icon: Layers3,
+    title: "Diseño de producto",
+    description: "Interfaces claras, pensadas desde las personas.",
+  },
+  {
+    icon: Code2,
+    title: "Desarrollo web y móvil",
+    description: "Ideas que toman forma y funcionan en el mundo real.",
+  },
+  {
+    icon: Music2,
+    title: "Exploración creativa",
+    description: "Un cruce constante entre tecnología, música e IA.",
+  },
+];
 
 export function About() {
+  const profileImage = `${import.meta.env.BASE_URL}images/profile.png`;
+
   return (
-    <section id="about" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading title="Sobre Mí" subtitle="Conóceme" />
+    <section id="about" className="relative overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"
+      />
+      <div className="relative mx-auto max-w-7xl">
+        <div className="mb-14 flex items-center gap-5 md:mb-20">
+          <span className="font-serif text-lg italic text-white">02</span>
+          <span className="text-xs font-mono uppercase tracking-[0.3em] text-neutral-500">
+            Sobre mí
+          </span>
+          <span className="h-px w-24 bg-gradient-to-r from-white/30 to-transparent" />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Image/Visual side */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="relative"
-          >
-            <div className="aspect-square max-w-md mx-auto relative z-10 rounded-3xl overflow-hidden glass-panel p-2">
-              <img
-                src={`${import.meta.env.BASE_URL}images/profile.png`}
-                alt="Jony Reyes"
-                className="w-full h-full object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
-            </div>
-            
-            {/* Decorative elements */}
-            <div className="absolute top-1/2 -translate-y-1/2 -left-10 w-32 h-32 bg-primary/30 blur-3xl rounded-full -z-10" />
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-cyan-500/20 blur-3xl rounded-full -z-10" />
-            
-            <motion.div 
-              animate={{ y: [0, -10, 0] }} 
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -right-4 top-1/4 glass-panel p-4 rounded-2xl flex items-center gap-3"
+        <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+          <div className="relative z-10">
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-8 text-5xl font-medium leading-[0.95] tracking-tight text-white sm:text-6xl md:text-8xl"
             >
-              <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                <Terminal size={20} />
-              </div>
-              <div>
-                <p className="font-bold text-sm">Full-Stack</p>
-                <p className="text-xs text-muted-foreground">Developer</p>
-              </div>
+              Tecnología con{" "}
+              <span className="font-serif italic text-neutral-500">intención.</span>
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.15, duration: 0.7 }}
+              className="max-w-2xl space-y-5 text-lg font-light leading-relaxed text-neutral-400"
+            >
+              <p>
+                Soy Jony Reyes, diseñador y desarrollador de productos
+                digitales. Me gusta convertir ideas complejas en experiencias
+                simples, útiles y memorables.
+              </p>
+              <p>
+                Trabajo entre diseño, código y nuevas herramientas creativas,
+                cuidando tanto los detalles visuales como la forma en que cada
+                producto se siente al usarlo.
+              </p>
             </motion.div>
-          </motion.div>
 
-          {/* Text/Content side */}
+            <div className="mt-12 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">
+              {FOCUS_AREAS.map(({ icon: Icon, title, description }, index) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index, duration: 0.5 }}
+                  className="border-l border-white/10 pl-4"
+                >
+                  <Icon size={18} className="mb-4 text-violet-300" />
+                  <h3 className="mb-2 text-sm font-medium text-white">{title}</h3>
+                  <p className="text-sm leading-relaxed text-neutral-500">
+                    {description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            <a
+              href="#contact"
+              className="mt-10 inline-flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-neutral-300 transition-colors hover:text-white"
+            >
+              Conoce mi trabajo <ArrowUpRight size={16} />
+            </a>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8 }}
+            className="relative mx-auto w-full max-w-md lg:ml-auto"
           >
-            <h3 className="text-2xl font-bold mb-4">Transformando ideas en código.</h3>
-            <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
-              Soy un desarrollador apasionado por crear experiencias digitales excepcionales. 
-              Mi enfoque se centra en escribir código limpio, eficiente y escalable, 
-              siempre manteniendo al usuario en el centro de la experiencia.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="glass-panel p-6 rounded-2xl hover:border-primary/50 transition-colors duration-300 group">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                  <Monitor size={24} />
-                </div>
-                <h4 className="text-lg font-bold mb-2">Desarrollo Web</h4>
-                <p className="text-sm text-muted-foreground">
-                  Especializado en React, Next.js y ecosistemas modernos para crear web apps rápidas y accesibles.
+            <div className="absolute -inset-4 rounded-[2rem] border border-white/10" />
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 bg-neutral-900">
+              <img
+                src={profileImage}
+                alt="Jony Reyes"
+                className="h-full w-full object-cover object-center grayscale transition duration-700 hover:scale-[1.03] hover:grayscale-0"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <p className="text-xs font-mono uppercase tracking-[0.25em] text-neutral-400">
+                  Diseñador · Desarrollador
                 </p>
-              </div>
-
-              <div className="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-colors duration-300 group">
-                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-300">
-                  <Smartphone size={24} />
-                </div>
-                <h4 className="text-lg font-bold mb-2">Desarrollo Móvil</h4>
-                <p className="text-sm text-muted-foreground">
-                  Experiencia creando aplicaciones nativas cross-platform fluidas usando React Native y Expo.
-                </p>
+                <p className="mt-2 text-2xl font-medium text-white">Jony Reyes</p>
               </div>
             </div>
+            <div className="absolute -bottom-5 -right-5 -z-10 h-32 w-32 rounded-full bg-violet-500/20 blur-3xl" />
           </motion.div>
         </div>
       </div>

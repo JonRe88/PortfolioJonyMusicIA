@@ -1,124 +1,104 @@
-import { useState } from "react";
+import type { FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 
 export function Contact() {
-  const [formState, setFormState] = useState<"idle" | "submitting" | "success">(
-    "idle",
-  );
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const subject = `Nuevo proyecto — ${formData.get("name")}`;
+    const body = [
+      `Nombre: ${formData.get("name")}`,
+      `Email: ${formData.get("email")}`,
+      "",
+      String(formData.get("message") ?? ""),
+    ].join("\n");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormState("submitting");
-    // Simulate API call
-    setTimeout(() => {
-      setFormState("success");
-      // Reset after a while
-      setTimeout(() => setFormState("idle"), 3000);
-    }, 1500);
+    window.location.href = `mailto:jreyesdeveloper@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeading title="Contacto" subtitle="Hablemos" />
+    <section
+      id="contact"
+      className="relative overflow-hidden px-5 py-24 sm:px-8 md:py-32 lg:px-12"
+    >
+      <div className="pointer-events-none absolute -right-24 top-1/3 h-80 w-80 rounded-full bg-violet-500/10 blur-[120px]" />
+      <div className="relative mx-auto max-w-7xl">
+        <SectionHeading title="Hagamos algo memorable" subtitle="05 / contacto" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-          {/* Left info */}
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="flex flex-col justify-center"
           >
-            <h3 className="text-3xl md:text-4xl font-bold mb-6 font-display">
-              ¿Tienes un proyecto en mente?
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.24em] text-violet-300">
+              ¿Tienes una idea?
+            </p>
+            <h3 className="max-w-xl text-4xl font-medium leading-tight tracking-tight text-white md:text-5xl">
+              Convirtámosla en una experiencia digital.
             </h3>
-            <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
-              Estoy disponible para trabajos freelance y nuevas oportunidades.
-              Si tienes una idea que quieres hacer realidad, o simplemente
-              quieres saludar, no dudes en escribirme.
+            <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-neutral-400">
+              Estoy disponible para proyectos freelance y nuevas
+              oportunidades. Cuéntame qué tienes en mente y lo pensamos juntos.
             </p>
 
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-primary">
-                  <Mail size={24} />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Email</p>
-                  <a
-                    href="mailto:jreyesdeveloper@gmail.com"
-                    className="text-lg font-medium hover:text-primary transition-colors"
-                  >
+            <div className="mt-10 space-y-6">
+              <a
+                href="mailto:jreyesdeveloper@gmail.com"
+                className="group flex items-center gap-4"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-violet-300 transition-colors group-hover:border-violet-300/30">
+                  <Mail size={19} />
+                </span>
+                <span>
+                  <span className="block text-xs text-neutral-500">Email</span>
+                  <span className="mt-1 block text-base text-neutral-200 transition-colors group-hover:text-white">
                     jreyesdeveloper@gmail.com
-                  </a>
-                </div>
-              </div>
+                  </span>
+                </span>
+              </a>
 
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl glass-panel flex items-center justify-center text-cyan-400">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Ubicación
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-medium">
-                      Disponible en Remoto
-                    </span>
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                    </span>
-                  </div>
-                </div>
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-blue-300">
+                  <MapPin size={19} />
+                </span>
+                <span>
+                  <span className="block text-xs text-neutral-500">Modalidad</span>
+                  <span className="mt-1 block text-base text-neutral-200">
+                    Disponible en remoto
+                  </span>
+                </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Right form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
             <form
               onSubmit={handleSubmit}
-              className="glass-panel p-8 rounded-3xl flex flex-col gap-6 relative overflow-hidden"
+              className="relative flex flex-col gap-6 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] p-6 backdrop-blur-xl sm:p-8"
             >
-              {/* Success Overlay */}
-              {formState === "success" && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="absolute inset-0 bg-card/95 backdrop-blur-sm z-20 flex flex-col items-center justify-center text-center p-8"
-                >
-                  <div className="w-20 h-20 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle2 size={40} />
-                  </div>
-                  <h4 className="text-2xl font-bold mb-2">¡Mensaje Enviado!</h4>
-                  <p className="text-muted-foreground">
-                    Gracias por contactarme. Te responderé lo más pronto
-                    posible.
-                  </p>
-                </motion.div>
-              )}
-
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="mb-2 block text-sm font-medium text-neutral-300"
                 >
                   Nombre
                 </label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   required
-                  className="w-full px-5 py-4 bg-background/50 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3.5 text-white outline-none transition placeholder:text-neutral-600 focus:border-violet-300/50 focus:ring-2 focus:ring-violet-300/10"
                   placeholder="Tu nombre"
                 />
               </div>
@@ -126,15 +106,16 @@ export function Contact() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="mb-2 block text-sm font-medium text-neutral-300"
                 >
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
-                  className="w-full px-5 py-4 bg-background/50 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  className="w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3.5 text-white outline-none transition placeholder:text-neutral-600 focus:border-violet-300/50 focus:ring-2 focus:ring-violet-300/10"
                   placeholder="tu@email.com"
                 />
               </div>
@@ -142,33 +123,29 @@ export function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="mb-2 block text-sm font-medium text-neutral-300"
                 >
                   Mensaje
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   required
                   rows={4}
-                  className="w-full px-5 py-4 bg-background/50 border border-white/10 rounded-xl text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
+                  className="w-full resize-none rounded-xl border border-white/10 bg-black/20 px-4 py-3.5 text-white outline-none transition placeholder:text-neutral-600 focus:border-violet-300/50 focus:ring-2 focus:ring-violet-300/10"
                   placeholder="Cuéntame sobre tu proyecto..."
-                ></textarea>
+                />
               </div>
 
               <button
                 type="submit"
-                disabled={formState !== "idle"}
-                className="w-full py-4 bg-gradient-to-r from-primary to-cyan-500 hover:from-primary/90 hover:to-cyan-500/90 text-white font-bold rounded-xl shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-4 font-medium text-neutral-950 transition-colors hover:bg-neutral-200 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {formState === "submitting" ? (
-                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                ) : (
-                  <>
-                    Enviar Mensaje
-                    <Send size={18} />
-                  </>
-                )}
+                Abrir correo para enviar <Send size={16} />
               </button>
+              <p className="text-center text-xs text-neutral-600">
+                También puedes escribirme directamente por email.
+              </p>
             </form>
           </motion.div>
         </div>

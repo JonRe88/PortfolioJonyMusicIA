@@ -1,279 +1,138 @@
-import React, { useEffect, useRef } from 'react';
-import { ExternalLink, Music as MusicIcon } from 'lucide-react';
+import { motion } from "framer-motion";
+import { ArrowUpRight, ExternalLink, Music2 } from "lucide-react";
+import { SectionHeading } from "./SectionHeading";
+
+const SPOTIFY_URL =
+  "https://open.spotify.com/artist/34X4pmiC1lKMz9dH1OEWy5";
+
+function publicImage(filename: string) {
+  return `${import.meta.env.BASE_URL}images/${filename}`;
+}
 
 export function Music() {
-  const bgRef = useRef(null);
-  const miniRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = bgRef.current;
-    const mini = miniRef.current;
-    const ctx = canvas.getContext('2d');
-    const mctx = mini.getContext('2d');
-    let time = 0;
-    let rafId;
-
-    const waves = Array.from({ length: 8 }, () => ({
-      value: Math.random() * 0.5 + 0.1,
-      target: Math.random() * 0.5 + 0.1,
-      speed: Math.random() * 0.02 + 0.01,
-    }));
-
-    function resize() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      mini.width = mini.offsetWidth;
-      mini.height = mini.offsetHeight;
-    }
-
-    function updateWaves() {
-      waves.forEach((w) => {
-        if (Math.random() < 0.01) w.target = Math.random() * 0.7 + 0.1;
-        w.value += (w.target - w.value) * w.speed;
-      });
-    }
-
-    function drawBg() {
-      ctx.fillStyle = '#06040f';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      waves.forEach((w, i) => {
-        const freq = w.value * 7;
-        ctx.beginPath();
-        for (let x = 0; x < canvas.width; x++) {
-          const nx = (x / canvas.width) * 2 - 1;
-          const px = nx + i * 0.04 + freq * 0.03;
-          const py =
-            Math.sin(px * 10 + time) *
-            Math.cos(px * 2) *
-            freq *
-            0.1 *
-            ((i + 1) / 8);
-          const y = (py + 1) * (canvas.height / 2);
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        const intensity = Math.min(1, freq * 0.3);
-        const r = Math.round(79 + intensity * 80);
-        const g = Math.round(70 + intensity * 80);
-        ctx.lineWidth = 1 + i * 0.25;
-        ctx.strokeStyle = `rgba(${r},${g},229,0.45)`;
-        ctx.stroke();
-      });
-    }
-
-    function drawMini() {
-      mctx.clearRect(0, 0, mini.width, mini.height);
-      const bars = 24;
-      const bw = mini.width / bars;
-      for (let i = 0; i < bars; i++) {
-        const h =
-          ((Math.sin(time * 2 + i * 0.7) + 1) * 0.5) * (mini.height * 0.55) +
-          mini.height * 0.05;
-        const intensity = (Math.sin(time + i * 0.5) + 1) * 0.5;
-        const r = Math.round(100 + intensity * 100);
-        const g = Math.round(80 + intensity * 100);
-        mctx.fillStyle = `rgba(${r},${g},240,${0.3 + intensity * 0.5})`;
-        mctx.beginPath();
-        mctx.roundRect(i * bw + 2, (mini.height - h) / 2, bw - 4, h, 3);
-        mctx.fill();
-      }
-    }
-
-    function loop() {
-      time += 0.025;
-      updateWaves();
-      drawBg();
-      drawMini();
-      rafId = requestAnimationFrame(loop);
-    }
-
-    resize();
-    loop();
-    window.addEventListener('resize', resize);
-    return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
   return (
-    <section id="music" className="relative py-24 border-y border-white/5 overflow-hidden">
-      {/* Full-section wave canvas */}
-      <canvas ref={bgRef} className="absolute inset-0 w-full h-full" />
+    <section
+      id="music"
+      className="relative isolate overflow-hidden border-y border-white/[0.06] bg-neutral-950 px-5 py-24 sm:px-8 md:py-32 lg:px-12"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_70%_50%,rgba(91,33,182,0.16),transparent_50%),radial-gradient(ellipse_at_20%_80%,rgba(29,78,216,0.1),transparent_45%)]"
+      />
 
-      <div className="relative z-10 flex items-center justify-center px-4">
-        <div className="w-full max-w-xs">
-          <div
-            className="rounded-2xl overflow-hidden"
-            style={{
-              border: '1px solid rgba(139,92,246,0.35)',
-              background: 'rgba(10,8,24,0.72)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)',
-              animation: 'musicFloat 4s ease-in-out infinite',
-            }}
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading
+          title="Música en otra frecuencia"
+          subtitle="04 / laboratorio sonoro"
+        />
+
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65 }}
           >
-            {/* Album art area with mini waveform */}
-            <div className="p-4 pb-0">
+            <p className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.22em] text-violet-300">
+              <Music2 size={15} /> Proyecto musical
+            </p>
+            <h3 className="max-w-xl text-4xl font-medium leading-[1.02] tracking-tight text-white md:text-6xl">
+              Donde el código encuentra{" "}
+              <span className="font-serif italic text-neutral-500">el ritmo.</span>
+            </h3>
+            <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-neutral-400">
+              También exploro la creatividad a través de la música. Un espacio
+              para experimentar con sonidos, tecnología e inteligencia
+              artificial.
+            </p>
+            <a
+              href={SPOTIFY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-8 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-sm font-medium text-white transition-all hover:border-violet-300/40 hover:bg-white/[0.08]"
+            >
+              Escuchar en Spotify
+              <ArrowUpRight
+                size={16}
+                className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            </a>
+          </motion.div>
+
+          <motion.article
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="group relative mx-auto w-full max-w-lg overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/80 shadow-2xl shadow-violet-950/20 backdrop-blur-xl"
+          >
+            <a
+              href={SPOTIFY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Abrir la música de Jony Reyes en Spotify"
+              className="relative block aspect-[16/10] overflow-hidden"
+            >
+              <img
+                src={publicImage("music-album.png")}
+                alt="Arte visual del proyecto musical de Jony Reyes"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/10 to-neutral-950/10" />
+              <div className="absolute left-5 top-5 rounded-full border border-white/15 bg-black/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-white/80 backdrop-blur-md">
+                Sonido en movimiento
+              </div>
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-violet-200">
+                    Música experimental
+                  </p>
+                  <h4 className="mt-2 text-2xl font-medium text-white">
+                    Jony Reyes
+                  </h4>
+                </div>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-neutral-950 transition-transform group-hover:scale-105">
+                  <ExternalLink size={18} />
+                </span>
+              </div>
+            </a>
+
+            <div className="flex items-center justify-between gap-4 p-5 sm:p-6">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-white">
+                  Creatividad, música e IA
+                </p>
+                <p className="mt-1 text-xs text-neutral-500">
+                  Escucha el proyecto en Spotify
+                </p>
+              </div>
               <div
-                className="relative rounded-xl overflow-hidden"
-                style={{
-                  height: 180,
-                  border: '1px solid rgba(139,92,246,0.3)',
-                  background: 'linear-gradient(135deg,#1a103c 0%,#0f1a2e 100%)',
-                }}
+                aria-hidden="true"
+                className="flex h-8 shrink-0 items-center gap-1"
               >
-                <canvas ref={miniRef} className="absolute inset-0 w-full h-full" />
-
-                {/* Vinyl record */}
-                <div
-                  className="absolute top-1/2 left-1/2 flex items-center justify-center"
-                  style={{
-                    width: 110,
-                    height: 110,
-                    borderRadius: '50%',
-                    background:
-                      'conic-gradient(#1a103c 0deg,#2d1b5e 60deg,#1a103c 120deg,#2d1b5e 180deg,#1a103c 240deg,#2d1b5e 300deg,#1a103c 360deg)',
-                    boxShadow: '0 0 24px rgba(139,92,246,0.4)',
-                    transform: 'translate(-50%,-50%)',
-                    animation: 'vinylSpin 4s linear infinite',
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center"
-                    style={{
-                      width: 30,
-                      height: 30,
-                      borderRadius: '50%',
-                      background: '#0f0d1e',
-                      border: '2px solid rgba(139,92,246,0.5)',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 8,
-                        height: 8,
-                        borderRadius: '50%',
-                        background: 'rgba(139,92,246,0.8)',
+                {[14, 23, 17, 29, 12, 25, 18, 30, 14, 22, 16, 27].map(
+                  (height, index) => (
+                    <motion.span
+                      key={index}
+                      animate={{ scaleY: [0.45, 1, 0.6] }}
+                      transition={{
+                        duration: 0.8 + (index % 4) * 0.2,
+                        repeat: Infinity,
+                        repeatType: "mirror",
+                        delay: index * 0.04,
+                        ease: "easeInOut",
                       }}
+                      style={{ height }}
+                      className="w-1 origin-center rounded-full bg-gradient-to-t from-blue-400 to-violet-300"
                     />
-                  </div>
-                </div>
-
-                {/* Play button */}
-                <div
-                  className="absolute bottom-2.5 right-2.5 flex items-center justify-center"
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '50%',
-                    background: 'rgba(139,92,246,0.85)',
-                    border: '1px solid rgba(139,92,246,0.5)',
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                    <path d="M6 4l15 8-15 8V4z" />
-                  </svg>
-                </div>
+                  ),
+                )}
               </div>
             </div>
-
-            {/* Divider */}
-            <div
-              className="mx-4 mt-3"
-              style={{
-                height: 1,
-                background:
-                  'linear-gradient(90deg,transparent,rgba(139,92,246,0.4),transparent)',
-              }}
-            />
-
-            {/* Card body */}
-            <div className="p-4">
-              <span
-                className="inline-block mb-2.5 text-xs font-medium"
-                style={{
-                  padding: '3px 10px',
-                  borderRadius: 999,
-                  background: 'rgba(139,92,246,0.15)',
-                  border: '1px solid rgba(139,92,246,0.35)',
-                  color: '#a78bfa',
-                }}
-              >
-                Música
-              </span>
-
-              <div className="flex items-center gap-2 mb-1.5">
-                <MusicIcon size={16} color="#a78bfa" />
-                <h3 className="text-base font-medium text-white">Jony Reyes</h3>
-                <span
-                  className="text-xs"
-                  style={{
-                    color: 'rgba(167,139,250,0.7)',
-                    background: 'rgba(139,92,246,0.12)',
-                    border: '1px solid rgba(139,92,246,0.2)',
-                    borderRadius: 999,
-                    padding: '1px 8px',
-                  }}
-                >
-                  Artista Verificado
-                </span>
-              </div>
-
-              <p
-                className="text-xs leading-relaxed mb-3"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
-              >
-                Explorando la frontera entre tecnología y arte con música
-                impulsada por IA.
-              </p>
-
-              <div className="flex justify-between items-center">
-                <a
-                  href="https://open.spotify.com/artist/34X4pmiC1lKMz9dH1OEWy5"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-medium transition-opacity hover:opacity-80"
-                  style={{
-                    padding: '6px 14px',
-                    background: 'rgba(29,185,84,0.18)',
-                    border: '1px solid rgba(29,185,84,0.35)',
-                    borderRadius: 10,
-                    color: '#1DB954',
-                    textDecoration: 'none',
-                  }}
-                >
-                  Escuchar en Spotify
-                  <ExternalLink size={12} />
-                </a>
-                <span
-                  className="text-xs"
-                  style={{
-                    color: 'rgba(255,255,255,0.4)',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    padding: '4px 10px',
-                    borderRadius: 999,
-                  }}
-                >
-                  Live
-                </span>
-              </div>
-            </div>
-          </div>
+          </motion.article>
         </div>
       </div>
-
-      <style>{`
-        @keyframes musicFloat {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes vinylSpin {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-      `}</style>
     </section>
   );
 }
-
