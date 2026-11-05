@@ -89,6 +89,35 @@
   .glass-panel {
     @apply bg-card/60 backdrop-blur-xl border border-foreground/10;
   }
+
+  .spotlight-card {
+    --spotlight-x: 50%;
+    --spotlight-y: 50%;
+    isolation: isolate;
+    position: relative;
+  }
+
+  .spotlight-card::before {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      320px circle at var(--spotlight-x) var(--spotlight-y),
+      rgb(196 181 253 / 22%),
+      transparent 72%
+    );
+    content: "";
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+  }
   
   .text-glow {
     text-shadow: none;
@@ -129,5 +158,9 @@
   .marquee-ltr,
   .marquee-rtl {
     animation-play-state: paused;
+  }
+
+  .spotlight-card::before {
+    transition: none;
   }
 }

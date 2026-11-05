@@ -1,12 +1,21 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Clock3 } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
+import { SpotlightCard } from "./ui/SpotlightCard";
 
 function publicImage(filename: string) {
   return `${import.meta.env.BASE_URL}images/${encodeURIComponent(filename)}`;
 }
 
 const PROJECTS = [
+  {
+    title: "CHKDor",
+    type: "Producto digital · Web",
+    description:
+      "Reloj checador conectado con WhatsApp para organizar horarios y consultar la asistencia del equipo.",
+    image: undefined,
+    url: "https://chkdor.web.app/",
+    tone: "bg-[#101525]",
+  },
   {
     title: "XIMNANZAS",
     type: "Producto digital · Web",
@@ -83,12 +92,9 @@ export function Projects() {
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 md:gap-y-20">
           {PROJECTS.map((project, index) => (
-            <motion.article
+            <article
               key={project.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ delay: (index % 2) * 0.08, duration: 0.6 }}
+              data-anime-reveal
               className={index % 3 === 0 ? "md:pt-12" : ""}
             >
               <a
@@ -98,20 +104,48 @@ export function Projects() {
                 className="group block"
                 aria-label={`${project.title}: ${project.description}`}
               >
-                <div
-                  className={`relative aspect-[1.35/1] overflow-hidden rounded-2xl border border-white/10 ${project.tone}`}
+                <SpotlightCard
+                  className={`aspect-[1.35/1] overflow-hidden rounded-2xl border border-white/10 ${project.tone}`}
                 >
-                  <img
-                    src={project.image}
-                    alt=""
-                    loading="lazy"
-                    className="h-full w-full object-contain p-8 mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.04] md:p-12"
-                  />
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-contain p-8 mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.04] md:p-12"
+                    />
+                  ) : (
+                    <div className="flex h-full flex-col justify-between bg-[radial-gradient(ellipse_at_80%_10%,rgba(99,102,241,0.28),transparent_45%),linear-gradient(135deg,#101525,#171d31)] p-7 text-white sm:p-10 md:p-12">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-indigo-200">
+                          <Clock3 size={19} />
+                        </span>
+                        <span className="font-mono text-xs font-semibold tracking-[0.24em]">
+                          CHKDOR
+                        </span>
+                      </div>
+                      <div>
+                        <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-indigo-200 sm:text-[10px]">
+                          Reloj checador + WhatsApp
+                        </p>
+                        <p className="text-3xl font-medium leading-[0.98] tracking-tight sm:text-4xl md:text-5xl">
+                          Tu equipo checa.
+                          <br />
+                          <span className="font-serif italic text-indigo-200">
+                            Tu empresa avanza.
+                          </span>
+                        </p>
+                        <p className="mt-4 max-w-xs text-xs leading-relaxed text-white/55 sm:text-sm">
+                          Asistencia más clara y cerca para cada jornada.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-60" />
                   <div className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/80 text-neutral-900 opacity-0 shadow-lg transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                     <ArrowUpRight size={18} />
                   </div>
-                </div>
+                </SpotlightCard>
 
                 <div className="mt-5 flex items-start justify-between gap-4 border-t border-white/10 pt-4">
                   <div>
@@ -127,7 +161,7 @@ export function Projects() {
                   </span>
                 </div>
               </a>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>
