@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Skills } from "@/components/Skills";
@@ -71,7 +70,6 @@ export default function Home() {
         )}
       </AnimatePresence>
       <MarqueeBackground />
-      <Navbar />
       <main>
         <Hero />
         <Projects />
