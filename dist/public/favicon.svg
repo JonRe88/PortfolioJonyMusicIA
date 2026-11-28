@@ -1,3 +1,49 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="572px" height="606px" viewBox="0 0 572 606" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Gráfico</title>
+    <defs>
+        <path d="M227.470403,60.2493046 L105.614973,142.728888 C72.0859742,165.42347 52,203.273501 52,243.761003 L52,361.176627 C52,403.102449 73.5281209,442.091249 109.009985,464.425346 L230.86262,541.125616 C270.554825,566.109916 321.055309,566.128648 360.766038,541.1738 L482.913403,464.414469 C518.439067,442.089581 540,403.075562 540,361.117566 L540,243.820733 C540,203.300241 519.88149,165.423845 486.307831,142.736411 L364.16326,60.1970966 C322.866103,32.2905019 268.746231,32.3111723 227.470403,60.2493046 Z" id="path-1"></path>
+        <filter x="-13.4%" y="-4.8%" width="122.7%" height="111.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="23" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="-10" dy="3" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feOffset dx="-10" dy="3" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="9.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.882352941   0 0 0 0 0.874509804  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M256,85.5 L256,488.175124 L248.233074,492.339751 L116.039065,404.511699 L108,389.519042 L108,317.065632" id="path-3"></path>
+        <filter x="-26.4%" y="-3.0%" width="152.7%" height="113.1%" filterUnits="objectBoundingBox" id="filter-4">
+            <feMorphology radius="23" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="4" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="23" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="4" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="4.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.882352941   0 0 0 0 0.874509804  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M318.106941,512.5 L318.106941,108.5 C412.816773,143.47597 462.069692,177.544387 465.865699,210.705251 C469.661706,243.866114 428.659276,281.871683 342.858408,324.721957 L465.865699,438.015513" id="path-5"></path>
+        <filter x="-25.3%" y="-10.6%" width="150.7%" height="115.7%" filterUnits="objectBoundingBox" id="filter-6">
+            <feMorphology radius="21.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="4" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feMorphology radius="21.5" operator="erode" in="SourceAlpha" result="shadowInner"></feMorphology>
+            <feOffset dx="0" dy="4" in="shadowInner" result="shadowInner"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="shadowInner" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feGaussianBlur stdDeviation="4.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0.882352941   0 0 0 0 0.874509804  0 0 0 1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Gráfico" stroke="none" fill="none" transform="translate(-0, 0.5)">
+        <g id="Trazado">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <path stroke="#00C9C9" stroke-width="24" d="M370.882063,50.2543764 L493.026634,132.793691 C529.902621,157.712675 552,199.314619 552,243.820733 L552,361.117566 C552,407.202578 528.31832,450.054042 489.298328,474.57482 L367.150963,551.334151 C323.534261,578.743574 268.066516,578.723 224.47016,551.281228 L102.617524,474.580958 C63.645641,450.050065 40,407.226301 40,361.176627 L40,243.761003 C40,199.291124 62.0616438,157.718138 98.8885774,132.791303 L220.744007,50.3117196 C266.079752,19.6255743 325.52289,19.6028707 370.882063,50.2543764 Z"></path>
+        </g>
+        <g id="Trazado">
+            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+            <use stroke="#00E1DF" stroke-width="45" xlink:href="#path-3"></use>
+        </g>
+        <g id="Trazado">
+            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+            <use stroke="#00E1DF" stroke-width="42" xlink:href="#path-5"></use>
+        </g>
+    </g>
 </svg>
